@@ -4,18 +4,20 @@ package com.example.vannguyen.teamroster;
  * Created by VanNguyen on 11/21/16.
  */
 
-public class Player
+public class Player extends Human
 {
     private int jerseyNumber;
     private int skillLevel;
-    private String name;
 
-    public Player(int jerseyNumber, int skillLevel)
+
+    public Player(String first_name, String last_name, int jerseyNumber, int skillLevel)
     {
+        super(first_name, last_name);
         this.jerseyNumber = jerseyNumber;
         this.skillLevel = skillLevel;
-        this.name=name;
+
     }
+
 
     public int getJerseyNumber()
     {
@@ -36,13 +38,6 @@ public class Player
     {
         this.skillLevel = skillLevel;
     }
-    public String getName()
-    {
-        return name;
-    }
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+
 }
 

@@ -1,0 +1,88 @@
+Index: app/src/main/java/com/example/vannguyen/teamroster/AddPlayerActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/vannguyen/teamroster/AddPlayerActivity.java	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/java/com/example/vannguyen/teamroster/AddPlayerActivity.java	(revision )
+@@ -8,13 +8,18 @@
+ 
+ import java.util.ArrayList;
+ 
+-public class AddPlayerActivity extends AppCompatActivity {
++public class AddPlayerActivity extends AppCompatActivity
++{
+     private EditText jerseyNumberET;
+     private EditText skillLevelET;
+     private TextView errorTV;
++    private  EditText firstNameET2;
++    private EditText lastNameET2;
+ 
++
+     @Override
+-    protected void onCreate(Bundle savedInstanceState) {
++    protected void onCreate(Bundle savedInstanceState)
++    {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_add_player);
+ 
+@@ -22,36 +27,37 @@
+         this.skillLevelET = (EditText) this.findViewById(R.id.skillLevelET);
+         this.errorTV = (TextView) this.findViewById(R.id.errorTV);
+         this.errorTV.setText("");
++        this.firstNameET2 = (EditText)this.findViewById(R.id.firstNameET2);
++        this.lastNameET2 = (EditText)this.findViewById(R.id.lastNameET2);
+ 
+     }
+ 
+-    public void addPlayerButtonPressed(View v) {
+-        if (this.jerseyNumberET.getText().toString().length() == 0) {
+-            this.errorTV.setText("You must enter a jersey number!");
+-        } else if (this.skillLevelET.getText().toString().length() == 0) {
+-            this.errorTV.setText("You must enter a skill level!");
+-        } else {
++    public void addPlayerButtonPressed(View v)
++    {
++        if (this.jerseyNumberET.getText().toString().length() == 0)
++        {
++            this.errorTV.setText("foob nuck!!! You must enter a jersey number!");
++        }
++        else if
++                (this.skillLevelET.getText().toString().length() == 0)
++        {
++            this.errorTV.setText("foob nuck!!! You must enter a skill level!");
++        }
++        else
++        {
+             //everything is cool, we should create our Player and add it
+             this.errorTV.setText("");
+             int jerseyNumber = Integer.parseInt(this.jerseyNumberET.getText().toString());
+             int skillLevel = Integer.parseInt(this.skillLevelET.getText().toString());
+-            Player p = new Player(jerseyNumber, skillLevel);
+-            ArrayList<Player> thePlayers = new ArrayList<Player>();
+-            Core.thePlayers.add(p);
+-            Core.AddPlayerButton = true;
+-
+-            if (Core.AddPlayerButton = true) {
+-                for (int i = 0; i < thePlayers.size(); i++) {
+-                    int rJerseyNum = thePlayers.get(i).getJerseyNumber();
+-                    int rSkillLevel = thePlayers.get(i).getSkillLevel();
+-                    String rName = thePlayers.get(i).getName();
+-                    Core.roster = (rName + ": " + rJerseyNum + " " + rSkillLevel);
+-                }
++            String firstName = this.firstNameET2.getText().toString();
++            String lastName = this.lastNameET2.getText().toString();
++            Player p = new Player(firstName, lastName, jerseyNumber, skillLevel);
++            Core.ResetListView(this, p);
+                 this.finish();
+-            }
+-        }
+-    }
++        }
++    }
++}
+-}
++
+ 
+ 
+ 

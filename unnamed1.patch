@@ -1,0 +1,391 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -15,7 +15,8 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <activity android:name=".AddPlayerActivity"></activity>
++        <activity android:name=".AddPlayerActivity" />
++        <activity android:name=".AddManager"></activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_add_player.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_add_player.xml	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/res/layout/activity_add_player.xml	(revision )
+@@ -30,6 +30,22 @@
+     <EditText
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
++        android:inputType="textPersonName"
++        android:ems="10"
++        android:id="@+id/firstNameET2"
++        android:hint="First Name" />
++
++    <EditText
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:inputType="textPersonName"
++        android:ems="10"
++        android:id="@+id/lastNameET2"
++        android:hint="Last Name" />
++
++    <EditText
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
+         android:inputType="number"
+         android:ems="10"
+         android:id="@+id/jerseyNumberET"
+\ No newline at end of file
+Index: app/src/main/java/com/example/vannguyen/teamroster/AddPlayerActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/vannguyen/teamroster/AddPlayerActivity.java	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/java/com/example/vannguyen/teamroster/AddPlayerActivity.java	(revision )
+@@ -8,13 +8,18 @@
+ 
+ import java.util.ArrayList;
+ 
+-public class AddPlayerActivity extends AppCompatActivity {
++public class AddPlayerActivity extends AppCompatActivity
++{
+     private EditText jerseyNumberET;
+     private EditText skillLevelET;
+     private TextView errorTV;
++    private  EditText firstNameET2;
++    private EditText lastNameET2;
+ 
++
+     @Override
+-    protected void onCreate(Bundle savedInstanceState) {
++    protected void onCreate(Bundle savedInstanceState)
++    {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_add_player);
+ 
+@@ -22,36 +27,37 @@
+         this.skillLevelET = (EditText) this.findViewById(R.id.skillLevelET);
+         this.errorTV = (TextView) this.findViewById(R.id.errorTV);
+         this.errorTV.setText("");
++        this.firstNameET2 = (EditText)this.findViewById(R.id.firstNameET2);
++        this.lastNameET2 = (EditText)this.findViewById(R.id.lastNameET2);
+ 
+     }
+ 
+-    public void addPlayerButtonPressed(View v) {
+-        if (this.jerseyNumberET.getText().toString().length() == 0) {
+-            this.errorTV.setText("You must enter a jersey number!");
+-        } else if (this.skillLevelET.getText().toString().length() == 0) {
+-            this.errorTV.setText("You must enter a skill level!");
+-        } else {
++    public void addPlayerButtonPressed(View v)
++    {
++        if (this.jerseyNumberET.getText().toString().length() == 0)
++        {
++            this.errorTV.setText("foob nuck!!! You must enter a jersey number!");
++        }
++        else if
++                (this.skillLevelET.getText().toString().length() == 0)
++        {
++            this.errorTV.setText("foob nuck!!! You must enter a skill level!");
++        }
++        else
++        {
+             //everything is cool, we should create our Player and add it
+             this.errorTV.setText("");
+             int jerseyNumber = Integer.parseInt(this.jerseyNumberET.getText().toString());
+             int skillLevel = Integer.parseInt(this.skillLevelET.getText().toString());
+-            Player p = new Player(jerseyNumber, skillLevel);
+-            ArrayList<Player> thePlayers = new ArrayList<Player>();
+-            Core.thePlayers.add(p);
+-            Core.AddPlayerButton = true;
+-
+-            if (Core.AddPlayerButton = true) {
+-                for (int i = 0; i < thePlayers.size(); i++) {
+-                    int rJerseyNum = thePlayers.get(i).getJerseyNumber();
+-                    int rSkillLevel = thePlayers.get(i).getSkillLevel();
+-                    String rName = thePlayers.get(i).getName();
+-                    Core.roster = (rName + ": " + rJerseyNum + " " + rSkillLevel);
+-                }
++            String firstName = this.firstNameET2.getText().toString();
++            String lastName = this.lastNameET2.getText().toString();
++            Player p = new Player(firstName, lastName, jerseyNumber, skillLevel);
++            Core.ResetListView(this, p);
+                 this.finish();
+-            }
+-        }
+-    }
++        }
++    }
++}
+-}
++
+ 
+ 
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ .idea/misc.xml	(revision )
+@@ -37,7 +37,7 @@
+     <ConfirmationsSetting value="0" id="Add" />
+     <ConfirmationsSetting value="0" id="Remove" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/res/layout/activity_main.xml	(revision )
+@@ -19,13 +19,20 @@
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentStart="true"
+     android:layout_marginBottom="18dp"
+-    android:id="@+id/playerList">
++    android:id="@+id/TeamRoster">
+ 
+     <Button
+         android:text="Add Player"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:id="@+id/button"
++        android:id="@+id/button1"
+         android:onClick="addPlayerButtonPressed"/>
++
++    <Button
++        android:text="Add Manager"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:id="@+id/button2"
++        android:onClick="addManagerButtonPressed" />
+ </LinearLayout>
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/vannguyen/teamroster/Player.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/vannguyen/teamroster/Player.java	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/java/com/example/vannguyen/teamroster/Player.java	(revision )
+@@ -4,19 +4,21 @@
+  * Created by VanNguyen on 11/21/16.
+  */
+ 
+-public class Player
++public class Player extends Human
+ {
+     private int jerseyNumber;
+     private int skillLevel;
+-    private String name;
+ 
+-    public Player(int jerseyNumber, int skillLevel)
++
++    public Player(String first_name, String last_name, int jerseyNumber, int skillLevel)
+     {
++        super(first_name, last_name);
+         this.jerseyNumber = jerseyNumber;
+         this.skillLevel = skillLevel;
+-        this.name=name;
++
+     }
+ 
++
+     public int getJerseyNumber()
+     {
+         return jerseyNumber;
+@@ -36,13 +38,6 @@
+     {
+         this.skillLevel = skillLevel;
+     }
+-    public String getName()
+-    {
+-        return name;
+-    }
+-    public void setName(String name)
+-    {
+-        this.name = name;
+-    }
++
+ }
+ 
+Index: app/src/main/java/com/example/vannguyen/teamroster/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/vannguyen/teamroster/MainActivity.java	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/java/com/example/vannguyen/teamroster/MainActivity.java	(revision )
+@@ -9,32 +9,62 @@
+ import android.widget.LinearLayout;
+ import android.widget.TextView;
+ 
++import java.util.ArrayList;
++import java.util.Random;
+ 
+-
++// Add the logic for Add Manager and update the MainActivity such that it always
++// shows all of the managers first followed by all of the Players.
+ public class MainActivity extends AppCompatActivity {
+-    private LinearLayout playerList;
+-    private Button AddPlayer;
+-
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
++
+         super.onCreate(savedInstanceState);
+         this.setContentView(R.layout.activity_main);
+-        this.playerList = (LinearLayout) this.findViewById(R.id.playerList);
+-        this.AddPlayer = (Button)this.findViewById(R.id.button);
++        Core.managerList = (LinearLayout) this.findViewById(R.id.TeamRoster);
++        Core.playerList = (LinearLayout) this.findViewById(R.id.TeamRoster);
+ 
++        ArrayList<Human> team = new ArrayList<Human>();
++        Random r = new Random();
++        for (int i = 0; i < 100; i++) {
++            int num = r.nextInt();
+ 
++            if (num <= 0) {
++                team.add(new Player("Fname" + i, "Lname " + i, i, i * 2));
++            } else
++            {
++               team.add(new Manager("Fname" + i, "Lname" + i,i*20));
+-    }
++            }
++        }
++        int numPlayers = 0;
++        int numManager = 0;
++        for (int i = 0; i < team.size(); i++) {
++            Human h = team.get(i);
++            if (h instanceof Player) {
++                numPlayers++;
++            } else {
++                numManager++;
++            }
++        }
++        System.out.println("***** Players:" + numPlayers);
++        System.out.println("***** Manager:" + numManager);
++    }
+ 
+     public void addPlayerButtonPressed(View sender) {
+ 
+         {
+             Intent i = new Intent(this, AddPlayerActivity.class);
+-            if (Core.AddPlayerButton=true) {
+-                TextView tv = new TextView(this);
+-                this.playerList.addView(tv);
+-                tv.setText("Player"+Core.thePlayers);
+-            }
++
+             this.startActivity(i);
+         }
++    }
++
++    public void addManagerButtonPressed(View sender) {
++
++        {
++            Intent j = new Intent(this, AddManager.class);
++
++            this.startActivity(j);
++        }
++
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/vannguyen/teamroster/Core.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/vannguyen/teamroster/Core.java	(revision 8d457edb7ae90bcc0dcd26cae64ad6f420bbc82d)
++++ app/src/main/java/com/example/vannguyen/teamroster/Core.java	(revision )
+@@ -1,5 +1,8 @@
+ package com.example.vannguyen.teamroster;
+ import android.view.LayoutInflater;
++import android.widget.LinearLayout;
++import android.widget.EditText;
++import android.widget.TextView;
+ 
+ import java.util.ArrayList;
+ /**
+@@ -9,6 +12,55 @@
+ public class Core
+ {
+     static ArrayList<Player> thePlayers = new ArrayList<Player>();
+-    static boolean AddPlayerButton = true;
+-     static String roster = "";
++    static ArrayList<Manager> theManagers = new ArrayList<Manager>();
++    static LinearLayout managerList;
++    static LinearLayout playerList;
++
++    public void ResetListView(){
++
++    }
++
++    public static void ResetListView(AddPlayerActivity addPlayerActivity, Player player) {
++        Core.managerList.removeViews(2,thePlayers.size()+theManagers.size());
++        for(int i=0;i<theManagers.size();i++){
++
++            TextView tv = new TextView(addPlayerActivity);
++            Manager m = theManagers.get(i);
++            tv.setText(m.getFirst_name() + " " + m.getLast_name() + "->" + m.getSalary());
++
++            Core.managerList.addView(tv);
++        }
++        thePlayers.add(player);
++        for(int i=0;i<thePlayers.size();i++){
++
++            TextView tv = new TextView(addPlayerActivity);
++            Player p = thePlayers.get(i);
++            tv.setText(p.getFirst_name() + " " + p.getLast_name() + p.getJerseyNumber() + " -> " + p.getSkillLevel());
++
++            Core.playerList.addView(tv);
++        }
++    }
++
++    public static void ResetListView(AddManager addManager, Manager manager) {
++        Core.managerList.removeViews(2,thePlayers.size()+theManagers.size());
++        theManagers.add(manager);
++        for(int i=0;i<theManagers.size();i++){
++
++
++            TextView tv = new TextView(addManager);
++            Manager m = theManagers.get(i);
++            tv.setText(m.getFirst_name() + " " + m.getLast_name() + "->" + m.getSalary());
++
++            Core.managerList.addView(tv);
++        }
++
++
++        for(int i=0;i<thePlayers.size();i++){
++            TextView tv = new TextView(addManager);
++            Player p = thePlayers.get(i);
++            tv.setText(p.getFirst_name() + " " + p.getLast_name() + p.getJerseyNumber() + " -> " + p.getSkillLevel());
++
++            Core.playerList.addView(tv);
++        }
++    }
+ }
+\ No newline at end of file

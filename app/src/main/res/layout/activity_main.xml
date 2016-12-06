@@ -19,13 +19,20 @@ tools:context="com.example.vannguyen.teamroster.MainActivity">
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     android:layout_marginBottom="18dp"
-    android:id="@+id/playerList">
+    android:id="@+id/TeamRoster">
 
     <Button
         android:text="Add Player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
+        android:id="@+id/button1"
         android:onClick="addPlayerButtonPressed"/>
+
+    <Button
+        android:text="Add Manager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:onClick="addManagerButtonPressed" />
 </LinearLayout>
 </RelativeLayout>
